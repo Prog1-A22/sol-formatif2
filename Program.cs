@@ -1,133 +1,117 @@
-﻿using System.Data;
-
-namespace SolFormatif1A22
+﻿namespace SolFormatif2A22
 {
     internal class Program
     {
         static void Main(string[] args)
         {
+            // La question 4 est un programme alors je la fais ici
+            // J'ajoute des méthodes au besoin avec le préfixe q4
+            // ex: q4_calculerMoyenne
+            int note = 0;
+            int nbEleve = 0;
+            double moyenne = 0.0;
+            int echec = 0;
+
+            while (note >= 0)
+            {
+                Console.Clear(); // pas obligatoire, c'est pour faire moins laid
+
+                Console.WriteLine("Entrer les résulats des étudiants\n Entrer un nombre négatif quand c'est fini");
+                // 4.1 On ne vérifie pas si la personne a bien entré la donnée
+                Console.WriteLine("Prochain résultat : ");
+                int.TryParse(Console.ReadLine(), out note);
+                // 4.2 est en commentaire pour ne pas dédoubler le travail avec 4.1
+                // note = q4_lireResultat();
+
+                if (note >= 0)
+                {
+                    nbEleve++;
+                    moyenne += note;
+                }
+
+                if (note < 60 && note >= 0)
+                {
+                    echec++;
+                }
+            }
+
+            moyenne = moyenne / nbEleve;
+
+            Console.Clear(); // pas obligatoire, c'est pour faire moins laid
+            Console.WriteLine("Nombre d'élèves : " + nbEleve);
+            Console.WriteLine("Moyenne du groupe : " + moyenne);
+            Console.WriteLine("Nombre d'échecs : " + echec);
+        }
+
+        static int q4_lireResultat()
+        {
+            int note = 0;
+            bool valide = false;
+
+            while (!valide)
+            {
+                Console.WriteLine("Prochain résultat : ");
+                int.TryParse(Console.ReadLine(), out note);
+                if (note >= 0 && note <= 100)
+                {
+                    valide = true;
+                }
+                else if (note < 0)
+                {
+                    valide = true;
+                }
+                else
+                {
+                    Console.WriteLine("La note n'est pas valide!");
+                }
+            }
+
+            return note;
+        }
+
+        static void q1(int nombre)
+        {
+            for (int i = 1; i < 13; i++)
+            {
+                Console.WriteLine(nombre + " x " + i + " = " + nombre * i);
+            }
+        }
+
+        static void q2(int nombreMax)
+        {
+            for (int i = 1; i <= nombreMax; i++)
+            {
+                q1(i);
+            }
+        }
+
+        static double q31(double[] tabPrixEssence)
+        {
+            double moyenne = 0.0;
+
+            for (int i = 0; i < tabPrixEssence.Length; i++)
+            { 
+                moyenne += tabPrixEssence[i];
+            }
+
+            moyenne = moyenne / tabPrixEssence.Length;
+
+            return moyenne;
+        }
+
+        static int q32(double[] tabPrixEssence)
+        {
+            int nbFois = 0;
+
+            for (int i = 0; i < tabPrixEssence.Length; i++)
+            {
+                if (tabPrixEssence[i] < q31(tabPrixEssence))
+                {
+                    nbFois++;
+                }
+            }
             
-        }
-
-        static void q2()
-        {
-            Random random = new Random();
-            int dommagesPikachu = 0;
-            int niveauTauros = random.Next(1, 100);
-
-            if (niveauTauros < 50)
-            {
-                dommagesPikachu = 100;
-            }
-            else if (niveauTauros < 70)
-            {
-                dommagesPikachu = 150;
-            }
-            else if (niveauTauros < 90)
-            {
-                dommagesPikachu = 200;
-            }
-            else
-            {
-                dommagesPikachu = 250;
-            }
-
-            Console.WriteLine("Dommages : " + dommagesPikachu);
-
-        }
-        static void q5()
-        {
-            int angle = 0;
-            string message = "";
-
-            Console.WriteLine("Entrer un angle (Entier) : ");
-            int.TryParse(Console.ReadLine(), out angle);
-
-            if (angle < 0)
-            {
-                message = "Robot hors contôle";
-            }
-            else if (angle < 40)
-            {
-                message = "Main fermée";
-            }
-            else if (angle < 90)
-            {
-                message = "Main agrippe";
-            }
-            else if (angle <= 180)
-            {
-                message = "Main ouverte";
-            }
-            else 
-            {
-                message = "Robot hors contôle";
-
-            }
-
-            Console.WriteLine(message);
-        }
-
-        static void raspiBot()
-        {
-            double total = 0.0;
-            string controleur = "Pi";
-            int nbMoteurs = 2;
-            string cameraUSB = "oui";
-            string leds = "oui";
-            string message = "";
-
-            Console.WriteLine("Choisir Pi ou Pi Zero");
-            controleur = Console.ReadLine();
-
-            if (controleur == "Pi")
-            {
-                total += 55;
-                message = "Contrôleur : " + controleur;
-            }
-            else 
-            {
-                total += 15;
-            }
-
-            Console.WriteLine("Combien de moteurs (2 à 24)");
-            int.TryParse(Console.ReadLine(), out nbMoteurs);
-
-            total = total + nbMoteurs * 5;
-            message = message + " Nb moteurs : " + nbMoteurs;
-
-            Console.WriteLine("Camera USB oui/non");
-            cameraUSB = Console.ReadLine();
-
-            if (cameraUSB == "oui")
-            {
-                total = total + 35;
-                message = message + " Camera USB";
-            }
-            else
-            {
-                message = message + " Pas de camera";
-            }
-
-            Console.WriteLine("Matrice LEDS oui/non");
-            leds = Console.ReadLine();
-
-            if (leds == "oui")
-            {
-                total = total + 10;
-                message = message + " Matrice de LEDS";
-            }
-            else 
-            {
-                message = message + " Pas de matrice";
-            }
-
-            total = total + 20 + 15;
-
-            Console.WriteLine(message);
-            Console.WriteLine("Prix : " + total);
-            total = total * 1.15;
-            Console.WriteLine("Prix livré : " + total);
+            return nbFois;
         }
     }
 }
